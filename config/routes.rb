@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :quests
   devise_for :users
   resources :factions
   devise_for :admin_users, ActiveAdmin::Devise.config
