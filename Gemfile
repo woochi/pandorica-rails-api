@@ -10,7 +10,7 @@ end
 gem 'rails', '~> 5.1.2'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.9.1'
+gem 'puma', '~> 3.8.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -43,6 +43,7 @@ group :development do
   gem 'capistrano-nvm', require: false
 end
 
+gem 'bundler', '~> 1.15.1'
 gem 'listen', '>= 3.0.5', '< 3.2'
 
 gem 'pg'
