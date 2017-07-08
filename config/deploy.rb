@@ -11,6 +11,9 @@ set :nvm_node, 'v8.1.3'
 set :nvm_map_bins, %w{node npm yarn}
 set :nvm_node_path, "/home/deploy/.nvm/versions/node/#{fetch(:nvm_node)}"
 
+# Linked dirs (required for Puma)
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system", "public/uploads"
+
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
