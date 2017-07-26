@@ -2,9 +2,9 @@ class Quest < ApplicationRecord
   validates_uniqueness_of :code
   before_create :set_code
 
-  def self.generate_code
+  def self.generate_unique_code
     begin
-      code = ('a'..'z').to_a.shuffle[0,5].join
+      code = Code.generate_code
     end while Quest.find_by(code: code)
 
     code
@@ -13,6 +13,6 @@ class Quest < ApplicationRecord
   private
 
   def set_code
-    self.code = Quest.generate_code
+    self.code = Quest.generate_unique_code
   end
 end

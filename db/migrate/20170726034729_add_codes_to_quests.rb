@@ -4,7 +4,7 @@ class AddCodesToQuests < ActiveRecord::Migration[5.1]
     add_index :quests, :code, unique: true
 
     Quest.find_each do |quest|
-      quest.code = Quest.generate_code
+      quest.code = Quest.generate_unique_code
       quest.save!
     end
   end
