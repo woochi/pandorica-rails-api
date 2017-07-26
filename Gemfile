@@ -57,3 +57,5 @@ gem 'activeadmin', github: 'activeadmin'
 gem 'inherited_resources', git: 'https://github.com/activeadmin/inherited_resources'
 
 gem 'rqrcode', '~> 0.10.1'
+gem 'rmagick'
+gem 'rubyzip', '>= 1.0.0'
