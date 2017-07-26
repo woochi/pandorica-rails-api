@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+      /* Email styles need to be inline */
+    </style>
+  </head>
+
+  <body style="font-family: Helvetica, sans-serif;">
+    <div style="text-align: center; margin: 40px; font-size: 16px;">
+      <%= raw @qr.as_svg(module_size: 4) %>
+      <h1 style="font-size: 28px; font-weight: 400;"><%= @quest.name %></h1>
+      <div>Scan the QR-code or fill in the code below in the app:</div>
+      <div style="font-size: 20px; margin: 20px; text-transform: uppercase; letter-spacing: 2px;"><%= @quest.code %></div>
+
+      <div>Join the fight at <a href="https://app.ropecon.fi">app.ropecon.fi</a></div>
+    </div>
+  </body>
+</html>
