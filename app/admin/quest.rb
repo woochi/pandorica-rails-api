@@ -45,7 +45,7 @@ ActiveAdmin.register Quest do
     zipfile_path = "#{Rails.root}/tmp/#{zipfile_name}"
     image_names = []
 
-    File.delete(zipfile_path)
+    File.delete(zipfile_path) if File.exist?(zipfile_path)
 
     Quest.all.each do |quest|
       canvas = Magick::ImageList.new
