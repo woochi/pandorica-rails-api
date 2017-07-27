@@ -1,8 +1,9 @@
 class QuestsController < ApplicationController
-  before_action :set_quest, only: [:show, :update, :destroy]
+  before_action :set_quest, only: [:show, :update, :destroy, :validate_code]
 
   # GET /quests
   def index
+    # TODO: don't return completed quests
     @quests = Quest.all
 
     render json: @quests
@@ -36,6 +37,16 @@ class QuestsController < ApplicationController
   # DELETE /quests/1
   def destroy
     @quest.destroy
+  end
+
+  # POST /quests/1
+  def validate_code
+    if @quest.code === params[:code]
+      # TODO: add points to user, strict params
+      render json: @quest, status: :ok
+    else
+      render json: nil, status: 400
+    end
   end
 
   private
