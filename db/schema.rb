@@ -49,8 +49,8 @@ ActiveRecord::Schema.define(version: 20170728015342) do
   end
 
   create_table "code_uses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "code_id"
+    t.bigint "user_id", null: false
+    t.uuid "code_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code_id"], name: "index_code_uses_on_code_id"
@@ -73,8 +73,8 @@ ActiveRecord::Schema.define(version: 20170728015342) do
   end
 
   create_table "quest_completions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "quest_id"
+    t.bigint "user_id", null: false
+    t.uuid "quest_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["quest_id"], name: "index_quest_completions_on_quest_id"

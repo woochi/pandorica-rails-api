@@ -23,7 +23,7 @@ class CodesController < ApiController
     elsif current_user.code_uses.exists?(code_id: @code.id)
       render json: {errors: ['You have already used this code']}, status: 400
     else
-      current_user.codes << @code
+      CodeUse.create!(code_id: @code.id, user_id: current_user.id)
       current_user.increment!(:points, 150)
       current_user.faction.increment!(:points, 150)
 
