@@ -43,7 +43,7 @@ module PandoricaRailsApi
     # CORS configuration
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'localhost', 'app.ropecon.fi', 'api.ropecon.fi'
+        origins '*'
         resource '*',
             :headers => :any,
             :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
