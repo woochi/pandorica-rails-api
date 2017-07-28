@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resources :factions
 
-  resources :quests
+  resources :quests, only: [:index, :show]
   post 'quests/:id' => 'quests#validate_code'
 
   resources :codes, only: [:create]
