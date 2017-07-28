@@ -14,9 +14,13 @@ ActiveAdmin.register Code do
 #   permitted
 # end
 
+  permit_params :value, :points
+
   index do
     selectable_column
     column :value
+    column :points
+    column :created_at
     actions do |quest|
       item "Preview", preview_admin_code_path(quest), class: "member_link"
     end

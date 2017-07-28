@@ -24,8 +24,8 @@ class CodesController < ApiController
       render json: {errors: ['You have already used this code']}, status: 400
     else
       CodeUse.create!(code_id: @code.id, user_id: current_user.id)
-      current_user.increment!(:points, 150)
-      current_user.faction.increment!(:points, 150)
+      current_user.increment!(:points, @code.points)
+      current_user.faction.increment!(:points, @code.points)
 
       render json: @code, status: :ok
     end

@@ -1,6 +1,5 @@
 class Code < ApplicationRecord
   validates_uniqueness_of :value
-  before_create :set_value
 
   def self.generate_code
     ('a'..'z').to_a.shuffle[0,5].join
@@ -12,11 +11,5 @@ class Code < ApplicationRecord
     end while Code.find_by(value: code)
 
     code
-  end
-
-  private
-
-  def set_value
-    self.value = Code.generate_unique_code
   end
 end
