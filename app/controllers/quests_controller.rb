@@ -12,7 +12,7 @@ class QuestsController < ApiController
 
   # GET /quests/1
   def show
-    render json: @quest
+    render json: JSON::parse(@quest.to_json(only: [:id, :name, :description, :points])).merge(completed: current_user.quest_completions.exists?(quest_id: @quest.id))
   end
 
   # POST /quests
@@ -47,7 +47,7 @@ class QuestsController < ApiController
     elsif current_user.quest_completions.exists?(quest_id: @quest.id)
       render json: {errors: ['You have already completed this quest']}, status: 400
     else
-      #current_user.quests << @quest
+      current_user.quests << @quest
       current_user.increment!(:points, @quest.points)
       current_user.faction.increment!(:points, @quest.points)
 
