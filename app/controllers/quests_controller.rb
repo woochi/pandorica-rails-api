@@ -42,7 +42,7 @@ class QuestsController < ApiController
 
   # POST /quests/1
   def validate_code
-    if @quest.code != params[:code]
+    if @quest.code != params[:code].downcase
       render json: {errors: ['The quest code was incorrect']}, status: 400
     elsif current_user.quest_completions.exists?(quest_id: @quest.id)
       render json: {errors: ['You have already completed this quest']}, status: 400

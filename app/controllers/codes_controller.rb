@@ -16,7 +16,7 @@ class CodesController < ApiController
 
   # POST /codes
   def create
-    @code = Code.find_by(value: params[:value])
+    @code = Code.find_by(value: params[:value].downcase)
 
     if @code.nil?
       render json: {errors: ['The code was incorrect']}, status: 400
