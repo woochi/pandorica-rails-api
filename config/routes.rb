@@ -10,5 +10,5 @@ Rails.application.routes.draw do
   resources :quests
   post 'quests/:id' => 'quests#validate_code'
 
-  resources :codes
+  resources :codes, only: [:create]
 end

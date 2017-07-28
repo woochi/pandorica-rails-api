@@ -1,5 +1,6 @@
-class CodesController < ApplicationController
-  before_action :set_code, only: [:show, :update, :destroy]
+class CodesController < ApiController
+  before_action :set_code, only: [:show, :update, :destroy, :validate_code]
+  before_action :authenticate_user!
 
   # GET /codes
   def index
@@ -15,12 +16,18 @@ class CodesController < ApplicationController
 
   # POST /codes
   def create
-    @code = Code.new(code_params)
+    @code = Code.find_by(value: params[:value])
 
-    if @code.save
-      render json: @code, status: :created, location: @code
+    if @code.nil?
+      render json: {errors: ['The code was incorrect']}, status: 400
+    elsif current_user.code_uses.exists?(code_id: @code.id)
+      render json: {errors: ['You have already used this code']}, status: 400
     else
-      render json: @code.errors, status: :unprocessable_entity
+      current_user.codes << @code
+      current_user.increment!(:points, 150)
+      current_user.faction.increment!(:points, 150)
+
+      render json: @code, status: :ok
     end
   end
 

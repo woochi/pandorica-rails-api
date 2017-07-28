@@ -1,10 +1,11 @@
-class QuestsController < ApplicationController
+class QuestsController < ApiController
   before_action :set_quest, only: [:show, :update, :destroy, :validate_code]
+  before_action :authenticate_user!
 
   # GET /quests
   def index
     # TODO: don't return completed quests
-    @quests = Quest.all
+    @quests = Quest.where(published: true).order(created_at: :desc)
 
     render json: @quests
   end
@@ -41,11 +42,16 @@ class QuestsController < ApplicationController
 
   # POST /quests/1
   def validate_code
-    if @quest.code === params[:code]
-      # TODO: add points to user, strict params
-      render json: @quest, status: :ok
+    if @quest.code != params[:code]
+      render json: {errors: ['The quest code was incorrect']}, status: 400
+    elsif current_user.quest_completions.exists?(quest_id: @quest.id)
+      render json: {errors: ['You have already completed this quest']}, status: 400
     else
-      render json: nil, status: 400
+      #current_user.quests << @quest
+      current_user.increment!(:points, @quest.points)
+      current_user.faction.increment!(:points, @quest.points)
+
+      render json: @quest, status: :ok
     end
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170727071008) do
+ActiveRecord::Schema.define(version: 20170728015342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,15 @@ ActiveRecord::Schema.define(version: 20170727071008) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "code_uses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "code_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code_id"], name: "index_code_uses_on_code_id"
+    t.index ["user_id"], name: "index_code_uses_on_user_id"
+  end
+
   create_table "codes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "value"
     t.datetime "created_at", null: false
@@ -61,6 +70,15 @@ ActiveRecord::Schema.define(version: 20170727071008) do
     t.boolean "public"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "quest_completions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "quest_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["quest_id"], name: "index_quest_completions_on_quest_id"
+    t.index ["user_id"], name: "index_quest_completions_on_user_id"
   end
 
   create_table "quests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -90,7 +108,10 @@ ActiveRecord::Schema.define(version: 20170727071008) do
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.json "tokens"
+    t.uuid "faction_id", default: "70b04786-e872-4a0b-aa44-0bfb00cf76a1", null: false
+    t.integer "points", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["faction_id"], name: "index_users_on_faction_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end

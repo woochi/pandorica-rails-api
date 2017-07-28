@@ -1,9 +1,14 @@
-class FactionsController < ApplicationController
+class FactionsController < ApiController
   before_action :set_faction, only: [:show, :update, :destroy]
 
   # GET /factions
   def index
-    @factions = Faction.all
+    safe_params = params.permit(:public)
+    if ActiveRecord::Type::Boolean.new.deserialize(safe_params[:public])
+      @factions = Faction.where(public: true)
+    else
+      @factions = Faction.all
+    end
 
     render json: @factions
   end
