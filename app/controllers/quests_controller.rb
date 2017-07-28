@@ -5,7 +5,7 @@ class QuestsController < ApiController
   # GET /quests
   def index
     # TODO: don't return completed quests
-    @quests = Quest.where(published: true).order(created_at: :desc)
+    @quests = Quest.select(:id, :name, :description, :points).where(published: true).order(created_at: :desc)
 
     render json: @quests
   end
