@@ -18,9 +18,6 @@ class CodesController < ApiController
   def create
     @code = Code.find_by(value: params[:value].downcase)
 
-    puts @code
-    puts @code.id
-
     if @code.nil?
       render json: {errors: ['The code was incorrect']}, status: 400
     elsif current_user.code_uses.exists?(code_id: @code.id)
