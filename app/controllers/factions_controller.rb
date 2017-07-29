@@ -4,13 +4,24 @@ class FactionsController < ApiController
   # GET /factions
   def index
     safe_params = params.permit(:public)
+
     if ActiveRecord::Type::Boolean.new.deserialize(safe_params[:public])
       @factions = Faction.where(public: true)
     else
       @factions = Faction.all
     end
 
-    render json: @factions
+    if !current_user.nil?
+      json = @factions.map do |faction|
+        JSON::parse(faction.to_json).merge(
+          contributed_points: current_user.faction_id === faction.id ? current_user.points : 0
+        )
+      end
+
+      render json: json
+    else
+      render json: @factions
+    end
   end
 
   # GET /factions/1
